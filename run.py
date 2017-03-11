@@ -8,7 +8,7 @@ MIN_SCORE = 10  # the default minimum score
 # TODO: User settings, move to a different file!
 TARGET_SUBREDDIT = "gamedeals"
 WHITELIST = ["free", "100", ]
-BLACKLIST = ["shipping", "region", "buy", "xbox", "psn", "drm", "weekend", ]
+BLACKLIST = ["shipping", "region", "buy", "xbox", "psn", "drm", "weekend", "trial", ]
 
 
 def create_user_agent():

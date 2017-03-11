@@ -17,7 +17,7 @@ def create_server():
 
 def create_email_string(subject, body):
     msg = MIMEMultipart()
-    msg['From'] = SETTINGS.get('SenderEmail', 'Name') + " <" + SETTINGS.get('SenderEmail', 'Email') + ">"
+    msg['From'] = "{} <{}>".format(SETTINGS.get('SenderEmail', 'Name'), SETTINGS.get('SenderEmail', 'Email'))
     msg['To'] = SETTINGS.get('DestinationEmail', 'Email')
     msg['Subject'] = subject
     body = body
@@ -28,7 +28,9 @@ def create_email_string(subject, body):
 
 
 def send_email(smtp_server, email_string):
-    smtp_server.sendmail(SETTINGS.get('SenderEmail', 'Email'), SETTINGS.get('DestinationEmail', 'Email'), email_string)
+    smtp_server.sendmail(SETTINGS.get('SenderEmail', 'Email'),
+                         SETTINGS.get('DestinationEmail', 'Email'),
+                         email_string)
 
 
 def main():
