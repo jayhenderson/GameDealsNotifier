@@ -7,34 +7,34 @@ SETTINGS = configparser.ConfigParser()
 SETTINGS.read('email.ini')
 
 
-def createServer():
+def create_server():
     user = SETTINGS.get('SenderEmail', 'Email')
     password = SETTINGS.get('SenderEmail', 'Password')
-    smtpServer = smtplib.SMTP_SSL(SETTINGS.get('SenderEmail', 'Server'))
-    smtpServer.login(user, password)
-    return smtpServer
+    smtp_server = smtplib.SMTP_SSL(SETTINGS.get('SenderEmail', 'Server'))
+    smtp_server.login(user, password)
+    return smtp_server
 
 
-def createEmailString(subject, body):
+def create_email_string(subject, body):
     msg = MIMEMultipart()
     msg['From'] = SETTINGS.get('SenderEmail', 'Name') + " <" + SETTINGS.get('SenderEmail', 'Email') + ">"
     msg['To'] = SETTINGS.get('DestinationEmail', 'Email')
     msg['Subject'] = subject
     body = body
     msg.attach(MIMEText(body, 'plain'))
-    emailString = msg.as_string()
+    email_string = msg.as_string()
 
-    return emailString
+    return email_string
 
 
-def sendEmail(smtpServer, emailString):
-    smtpServer.sendmail(SETTINGS.get('SenderEmail', 'Email'), SETTINGS.get('DestinationEmail', 'Email'), emailString)
+def send_email(smtp_server, email_string):
+    smtp_server.sendmail(SETTINGS.get('SenderEmail', 'Email'), SETTINGS.get('DestinationEmail', 'Email'), email_string)
 
 
 def main():
-    server = createServer()
-    emailString = createEmailString("Test", "Body test")
-    sendEmail(server, emailString)
+    server = create_server()
+    email_string = create_email_string("Test", "Body test")
+    send_email(server, email_string)
     print("test e-mail sent!")
 
 

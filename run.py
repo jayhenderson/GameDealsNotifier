@@ -1,23 +1,21 @@
 import praw
 import time
-from emailer import createServer, createEmailString, sendEmail
-
+from emailer import create_server, create_email_string, send_email
 
 MIN_SCORE = 10  # the default minimum score
 
-
 # TODO: User settings, move to a different file!
-targetSubreddit = "gamedeals"
-whitelist = ["free", "100", ]
-blacklist = ["shipping", "region", "buy", "xbox", "psn", "drm", "weekend", ]
+TARGET_SUBREDDIT = "gamedeals"
+WHITELIST = ["free", "100", ]
+BLACKLIST = ["shipping", "region", "buy", "xbox", "psn", "drm", "weekend", ]
 
 
-def createUserAgent():
+def create_user_agent():
     user_agent = praw.Reddit(user_agent='Game Deal Notifier 1.0')
     return user_agent
 
 
-def getSubmissions(client, target):
+def get_submissions(client, target):
     submissions = client.get_subreddit(target).get_new(limit=25)
     # Or use one of these functions:
     #                                       .get_new
@@ -31,38 +29,38 @@ def getSubmissions(client, target):
     return submissions
 
 
-def isValidSubmission(submission):
+def is_valid_submission(submission):
     title = submission.title.lower()
-    return findMatch(title, whitelist, blacklist) and submission.score > MIN_SCORE
+    return find_match(title) and submission.score > MIN_SCORE
 
 
-def findMatch(title, whitelist, blacklist):
-    if not whitelist or any(word in title for word in whitelist):
-        if not blacklist or not any(word in title for word in blacklist):
+def find_match(title):
+    if not WHITELIST or any(word in title for word in WHITELIST):
+        if not BLACKLIST or not any(word in title for word in BLACKLIST):
             return True
     return False
 
 
-def sendNotification(post):
-    server = createServer()
-    emailString = createEmailString(post[0], post[1])
-    sendEmail(server, emailString)
+def send_notification(post):
+    server = create_server()
+    email_string = create_email_string(post[0], post[1])
+    send_email(server, email_string)
 
 
 def main():
-    reddit = createUserAgent()
-    sent = []
+    reddit = create_user_agent()
+    sent_notifications = []
     while True:
-        notificationQueue = []
-        submissions = getSubmissions(reddit, targetSubreddit)
+        notification_queue = []
+        submissions = get_submissions(reddit, TARGET_SUBREDDIT)
         print("Searching...")
         for submission in submissions:
-            if isValidSubmission(submission) and submission.id not in sent:
-                notificationQueue.append((submission.title, submission.url))
-                sent.append(submission.id)
-        for post in notificationQueue:
+            if is_valid_submission(submission) and submission.id not in sent_notifications:
+                notification_queue.append((submission.title, submission.url))
+                sent_notifications.append(submission.id)
+        for post in notification_queue:
             try:
-                sendNotification(post)
+                send_notification(post)
                 print("Notification Sent!")
             except:
                 continue
