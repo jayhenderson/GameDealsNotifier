@@ -1,0 +1,27 @@
+{
+  "name": "Reddit Notifier",
+  "description": "Emails you when free games for steam are posted on r/gamedeals",
+  "repository": "https://github.com/jayhenderson/Reddit-Notifier/tree/Heroku"
+  },
+  "env": {
+      "SENDEREMAIL": {
+        "description": "The e-mail address to be sent from.",
+        "value": ""
+      },
+      "SENDERPASSWORD": {
+        "description": "The sender e-mail address password.",
+        "value": ""
+      },
+      "SENDERSERVER": {
+            "description": "The sender e-mail address server.",
+            "value": ""
+          },
+      "SENDERNAME": {
+            "description": "The sender name.",
+            "value": ""
+          },
+      "DESTINATIONEMAIL": {
+            "description": "The destinaton e-mail address.",
+            "value": ""
+          }
+}
