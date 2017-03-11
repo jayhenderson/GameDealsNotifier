@@ -3,10 +3,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from os import environ
 
+
 def create_server():
     user = environ.get('SENDEREMAIL')
     password = environ.get('SENDERPASSWORD')
-    smtp_server = smtplib.SMTP_SSL(environ.get('SENDEREMAIL'))
+    smtp_server = smtplib.SMTP_SSL(environ.get('SENDERSERVER'))
     smtp_server.login(user, password)
     return smtp_server
 
