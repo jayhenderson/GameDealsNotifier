@@ -1,6 +1,7 @@
 import praw
 import time
 from emailer import create_server, create_email_string, send_email
+import re
 
 MIN_SCORE = 10  # the default minimum score
 
@@ -35,8 +36,8 @@ def is_valid_submission(submission):
 
 
 def find_match(title):
-    if not WHITELIST or any(word in title for word in WHITELIST):
-        if not BLACKLIST or not any(word in title for word in BLACKLIST):
+    if not WHITELIST or any(re.search(r'\b{}\b'.format(word), title) for word in WHITELIST):
+        if not BLACKLIST or not any(re.search(r'\b{}\b'.format(word), title) for word in BLACKLIST):
             return True
     return False
 
