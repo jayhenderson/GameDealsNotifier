@@ -1,4 +1,7 @@
 # Reddit-Notifier
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 A notification bot for reddit
 
 Create a email.ini file based on the email.ini.example
