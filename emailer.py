@@ -1,24 +1,20 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import configparser
-
-SETTINGS = configparser.ConfigParser()
-SETTINGS.read('email.ini')
-
+from os import environ
 
 def create_server():
-    user = SETTINGS.get('SenderEmail', 'Email')
-    password = SETTINGS.get('SenderEmail', 'Password')
-    smtp_server = smtplib.SMTP_SSL(SETTINGS.get('SenderEmail', 'Server'))
+    user = environ.get('SENDEREMAIL')
+    password = environ.get('SENDERPASSWORD')
+    smtp_server = smtplib.SMTP_SSL(environ.get('SENDEREMAIL'))
     smtp_server.login(user, password)
     return smtp_server
 
 
 def create_email_string(subject, body):
     msg = MIMEMultipart()
-    msg['From'] = "{} <{}>".format(SETTINGS.get('SenderEmail', 'Name'), SETTINGS.get('SenderEmail', 'Email'))
-    msg['To'] = SETTINGS.get('DestinationEmail', 'Email')
+    msg['From'] = "{} <{}>".format(environ.get('SENDERNAME'), environ.get('SENDEREMAIL'))
+    msg['To'] = environ.get('DESTINATIONEMAIL')
     msg['Subject'] = subject
     body = body
     msg.attach(MIMEText(body, 'plain'))
@@ -28,8 +24,8 @@ def create_email_string(subject, body):
 
 
 def send_email(smtp_server, email_string):
-    smtp_server.sendmail(SETTINGS.get('SenderEmail', 'Email'),
-                         SETTINGS.get('DestinationEmail', 'Email'),
+    smtp_server.sendmail(environ.get('SENDEREMAIL'),
+                         environ.get('DESTINATIONEMAIL'),
                          email_string)
 
 

@@ -1,8 +1,0 @@
-[SenderEmail]
-Email: your@senderemail.address
-Password: emailpassword
-Server: Email Server - Example for gmail would be smtp.gmail.com
-Name: Name on sent emails
-
-[DestinationEmail]
-Email: email@addresstobesent.to
